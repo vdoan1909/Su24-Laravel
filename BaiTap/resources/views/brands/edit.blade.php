@@ -53,10 +53,8 @@
             window.onload = function() {
                 FuiToast("{{ session('success') }}", {
                     style: {
-                        backgroundColor: '#1DC071',
-                        color: '#ffffff',
-                        width: 'auto'
-                    },
+                            color: '#000000',
+                        }
                 })
             };
         </script>

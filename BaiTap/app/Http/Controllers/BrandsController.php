@@ -14,7 +14,7 @@ class BrandsController extends Controller
      */
     public function index()
     {
-        $brands = Brands::query()->latest('id')->paginate(5);
+        $brands = Brands::query()->latest('id')->paginate(3);
         return view(self::PATH_VIEW . __FUNCTION__, compact("brands"));
     }
 
@@ -127,8 +127,9 @@ class BrandsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brands $brands)
+    public function destroy(Brands $brand)
     {
-        //
+        $brand->delete();
+        return redirect()->back()->with('success','Delete brand successfully');
     }
 }

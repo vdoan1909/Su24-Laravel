@@ -47,7 +47,8 @@
                                         <form action="{{ route('brands.destroy', $brand->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-success">Delete</button>
+                                            <button onclick="return confirm('Yet sure?')" type="submit"
+                                                class="btn btn-success">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -118,10 +119,8 @@
             window.onload = function() {
                 FuiToast("{{ session('success') }}", {
                     style: {
-                        backgroundColor: '#1DC071',
-                        color: '#ffffff',
-                        width: 'auto'
-                    },
+                            color: '#000000',
+                        }
                 })
             };
         </script>
