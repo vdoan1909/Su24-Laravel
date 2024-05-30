@@ -34,12 +34,13 @@ class BrandsController extends Controller
         $data = $request->all();
         $request->validate(
             [
-                "name" => "required|min:5",
+                "name" => "required|min:5|unique:brands,name",
                 "image" => "mimes:png,jpg,jpeg,webp"
             ],
             [
                 "name.required" => "Name is empty",
                 "name.min" => "Name need to be at least :min characters",
+                "name.unique" => "The name has already been taken",
                 "image.mimes" => "Only select PNG, JPG, JPEG, WEBP images"
             ]
         );
@@ -93,12 +94,13 @@ class BrandsController extends Controller
 
         $request->validate(
             [
-                "name" => "required|min:5",
+                "name" => "required|min:5|unique:brands,name",
                 "image" => "mimes:png,jpg,jpeg,webp"
             ],
             [
                 "name.required" => "Name is empty",
                 "name.min" => "Name need to be at least :min characters",
+                "name.unique" => "The name has already been taken",
                 "image.mimes" => "Only select PNG, JPG, JPEG, WEBP images"
             ]
         );
@@ -130,6 +132,6 @@ class BrandsController extends Controller
     public function destroy(Brands $brand)
     {
         $brand->delete();
-        return redirect()->back()->with('success','Delete brand successfully');
+        return redirect()->back()->with('success', 'Delete brand successfully');
     }
 }

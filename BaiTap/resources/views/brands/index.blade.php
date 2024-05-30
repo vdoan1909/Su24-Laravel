@@ -6,6 +6,8 @@
 {{-- @dd($brands->lastPage()) --}}
 {{-- @dd($brands->hasMorePages()) --}}
 
+{{-- @dd($brands) --}}
+
 @section('content')
     <div class="col-md-10 right-side">
         <div class="col-md-12 d-flex align-items-center justify-content-center flex-column">

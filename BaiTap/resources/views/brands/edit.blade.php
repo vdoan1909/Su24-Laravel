@@ -42,8 +42,14 @@
             </div>
 
             <div class="col-md-5 bg-side-right" style="margin-top: 100px; max-width: 100%; height: 100%;">
-                <img style="width: 516px; height: 600px;  object-fit: contain" src="{{ asset('storage/' . $brand->image) }}"
-                    alt="">
+                @if ($brand->image)
+                    <img style="width: 516px; height: 600px;  object-fit: contain"
+                        src="{{ asset('storage/' . $brand->image) }}" alt="">
+                @else
+                    <img style="width: 516px; height: 600px;  object-fit: contain"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGfODhv7HIB9-Bkei2xPUeY19djdYXqDQlzg&s"
+                        alt="">
+                @endif
             </div>
         </div>
     </div>
@@ -53,8 +59,8 @@
             window.onload = function() {
                 FuiToast("{{ session('success') }}", {
                     style: {
-                            color: '#000000',
-                        }
+                        color: '#000000',
+                    }
                 })
             };
         </script>
