@@ -1,7 +1,14 @@
 <?php
-
 use App\Http\Controllers\BrandsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-Route::get("/", [BrandsController::class,"index"])->name("brands.index");
-Route::resource("brands", BrandsController::class);
+Auth::routes();
+
+Route::get('/{any}', function () {
+    return redirect()->route('login');
+})->where('any', '^(|home)$');
+
+Route::middleware(['authentication'])->group(function () {
+    Route::resource('brands', BrandsController::class);
+});
