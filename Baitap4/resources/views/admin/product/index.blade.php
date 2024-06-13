@@ -1,7 +1,7 @@
 @extends('admin.layout.master')
 
 @section('title')
-    List Catalogue
+    List product
 @endsection
 
 @section('style-libs')
@@ -29,9 +29,9 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Catalogue</h4>
+                <h4 class="mb-sm-0">product</h4>
 
-                <a href="{{ Route('admin.products.create') }}" class="btn btn-primary">Create a new catalogue</a>
+                <a href="{{ Route('admin.products.create') }}" class="btn btn-primary">Create a new product</a>
             </div>
         </div>
     </div>
@@ -60,6 +60,7 @@
                                 <th>Is Good Deal</th>
                                 <th>Is New Deal</th>
                                 <th>Is Show Home</th>
+                                <th>Tags</th>
                                 <th>Manage</th>
                             </tr>
                         </thead>
@@ -108,6 +109,11 @@
                                         {!! $item->is_show_home
                                             ? '<span class="badge bg-primary">Is show home</span>'
                                             : '<span class="badge bg-danger">Not show home</span>' !!}
+                                    </td>
+                                    <td>
+                                        @foreach ($item->tags as $tag)
+                                            <span class="badge bg-primary">{{ $tag->name }}</span>
+                                        @endforeach
                                     </td>
                                     <td>
                                         <div class="dropdown d-inline-block">

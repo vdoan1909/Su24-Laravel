@@ -19,6 +19,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
+        
         ProductVariant::truncate();
         ProductGallery::truncate();
         DB::table('product_tag')->truncate();
@@ -58,8 +59,7 @@ class ProductSeeder extends Seeder
             );
         }
 
-        for ($i = 1; $i <= 10; $i++) {
-            $name = fake()->text(60);
+        for ($i = 1; $i <= 100; $i++) {
             ProductGallery::insert(
                 [
                     [
@@ -75,7 +75,7 @@ class ProductSeeder extends Seeder
             );
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             DB::table('product_tag')->insert([
                 [
                     'product_id' => $i,

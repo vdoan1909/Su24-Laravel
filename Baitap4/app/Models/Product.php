@@ -37,7 +37,23 @@ class Product extends Model
         'is_show_home' => 'boolean'
     ];
 
-    public function catalogue(){
+    public function catalogue()
+    {
         return $this->belongsTo(Catalogue::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function galleries()
+    {
+        return $this->hasMany(ProductGallery::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 }
