@@ -1,7 +1,7 @@
 @extends('admin.layout.master')
 
 @section('title')
-    Create product
+    Edit product {{ $product->name }}
 @endsection
 
 @section('style-libs')
@@ -21,12 +21,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Create</h4>
+                <h4 class="mb-sm-0">Edit product {{ $product->name }}</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
 
@@ -34,15 +34,17 @@
         </div>
     </div>
 
-    <form class="form-group" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-group" action="{{ route('admin.products.update', $product->id) }}" method="POST"
+        enctype="multipart/form-data">
         @csrf
+        @method('PUT')
 
         {{-- Information --}}
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Information</h4>
+                        <h4 class="card-title mb-0 flex-grow-1">Detail</h4>
                     </div>
                     <div class="card-body">
                         <div class="live-preview">
@@ -50,30 +52,33 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $product->name }}">
                                     </div>
 
                                     <div class="mt-3">
                                         <label for="sku" class="form-label">SKU</label>
                                         <input type="text" class="form-control" id="sku" name="sku"
-                                            value="{{ strtoupper(Str::random(8)) }}">
+                                            value="{{ $product->sku }}" readonly>
                                     </div>
 
                                     <div class="mt-3">
                                         <label for="price_regular" class="form-label">Price Regular</label>
                                         <input type="number" class="form-control" id="price_regular" name="price_regular"
-                                            value="0">
+                                            value="{{ $product->price_regular }}">
                                     </div>
 
                                     <div class="mt-3">
                                         <label for="price_sale" class="form-label">Price Sale</label>
                                         <input type="number" class="form-control" id="price_sale" name="price_sale"
-                                            value="0">
+                                            value="{{ $product->price_sale }}">
                                     </div>
 
                                     <div class="mt-3">
                                         <label for="catalogue_id" class="form-label">Catalogues</label>
                                         <select class="form-select" id="catalogue_id" name="catalogue_id">
+                                            <option value="{{ $product->catalogue->id }}">{{ $product->catalogue->name }}
+                                            </option>
                                             @foreach ($catalogues as $id => $name)
                                                 <option value="{{ $id }}">
                                                     {{ $name }}
@@ -86,6 +91,9 @@
                                         <label for="img_thumbnail" class="form-label">Img Thumbnail</label>
                                         <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail">
                                     </div>
+
+                                    <img class="mt-3" style="width: 100px; object-fit: cover;"
+                                        src="{{ \Storage::url($product->img_thumbnail) }}" alt="">
                                 </div>
 
                                 <div class="col-md-8">
@@ -104,7 +112,8 @@
                                             <div class="col-md-2">
                                                 <div class="form-check form-switch form-switch-{{ $value }}">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="{{ $key }}" name="{{ $key }}" checked>
+                                                        id="{{ $key }}" name="{{ $key }}"
+                                                        @if ($product->$key) checked @endif>
                                                     <label class="form-check-label" for="{{ $key }}">
                                                         {{ \Str::convertCase($key, MB_CASE_TITLE) }}
                                                     </label>
@@ -119,28 +128,36 @@
                                                 <label for="description" class="form-label">
                                                     Description
                                                 </label>
-                                                <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                                                <textarea class="form-control" id="description" rows="3" name="description">
+                                                    {{ $product->description }}
+                                                </textarea>
                                             </div>
 
                                             <div class="mt-3">
                                                 <label for="material" class="form-label">
                                                     Material
                                                 </label>
-                                                <textarea class="form-control" id="material" rows="3" name="material"></textarea>
+                                                <textarea class="form-control" id="material" rows="3" name="material">
+                                                    {{ $product->material }}
+                                                </textarea>
                                             </div>
 
                                             <div class="mt-3">
                                                 <label for="user_manual" class="form-label">
                                                     User Manual
                                                 </label>
-                                                <textarea class="form-control" id="user_manual" rows="3" name="user_manual"></textarea>
+                                                <textarea class="form-control" id="user_manual" rows="3" name="user_manual">
+                                                    {{ $product->user_manual }}
+                                                </textarea>
                                             </div>
 
                                             <div class="mt-3">
                                                 <label for="content" class="form-label">
                                                     Content
                                                 </label>
-                                                <textarea class="form-control" id="content" name="content"></textarea>
+                                                <textarea class="form-control" id="content" name="content">
+                                                    {{ $product->content }}
+                                                </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -170,6 +187,7 @@
                                                 <th>Coler</th>
                                                 <th>Quantity</th>
                                                 <th>Image</th>
+                                                <th class="col-md-6"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -184,7 +202,7 @@
                                                             </td>
                                                         @endif
                                                         @php($flagRowspan = false)
-                                                        
+
                                                         <td>
                                                             <div class="color"
                                                                 style="width: 50px; height: 50px; border-radius: 50%; background: {{ $colorName }}">
@@ -192,11 +210,23 @@
                                                         </td>
                                                         <td>
                                                             <input type="text" class="form-control"
-                                                                name="product_variants[{{ $sizeID . '-' . $colorID }}][quantity]">
+                                                                name="product_variants[{{ $sizeID . '-' . $colorID }}][quantity]"
+                                                                @foreach ($product->variants as $variant)
+                                                            @if ($variant->product_size_id == $sizeID && $variant->product_color_id == $colorID)
+                                                                value="{{ $variant->quantity }}"
+                                                            @endif @endforeach>
                                                         </td>
                                                         <td>
                                                             <input type="file" class="form-control"
                                                                 name="product_variants[{{ $sizeID . '-' . $colorID }}][image]">
+                                                        </td>
+                                                        <td>
+                                                            <img style="width: 50px; object-fit: cover;"
+                                                                @foreach ($product->variants as $variant)
+                                                            @if ($variant->product_size_id == $sizeID && $variant->product_color_id == $colorID)
+                                                           src="{{ \Storage::url($variant->image) }}"
+                                                           @endif @endforeach
+                                                                alt="">
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -235,6 +265,12 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                @foreach ($product->galleries as $gallery)
+                    <img class="ms-2" style="width: 100px; object-fit: cover;"
+                        src="{{ \Storage::url($gallery->image) }}" alt="">
+                @endforeach
+            </div>
         </div>
 
         {{-- Tags --}}
@@ -251,9 +287,12 @@
                                     <div>
                                         <label for="tags" class="form-label">Tags</label>
                                         <select class="form-select" multiple aria-label="multiple select example"
-                                            id="tags" name="tags[]" multiple>
-                                            @foreach ($tags as $id => $name)
-                                                <option value="{{ $id }}">{{ $name }}</option>
+                                            id="tags" name="tags[]">
+                                            @foreach ($tags as $key => $tag)
+                                                <option value="{{ $key }}"
+                                                    @if (in_array($key, $selectedTags)) style="background-color: #1967D2;"  @endif>
+                                                    {{ $tag }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -264,6 +303,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="my-3">
             <button type="submit" class="btn btn-primary">Save</button>
